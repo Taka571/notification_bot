@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: notify_bot_production
-  username: notify_bot
-  password: <%= ENV['NOTIFY_BOT_DATABASE_PASSWORD'] %>
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
