@@ -20,9 +20,11 @@ class RestaurantsController < ApplicationController
             client.reply_message(event['replyToken'], {"type": "text", "text": "これまでのすべてのレストランをお送りします"})
             message = Restaurant.create_line_messages(Restaurant.all.ids)
           else
-          # 入力された文字で店名を検索し、lineメッセージを作成する
-          restaurants_ids = Restaurant.where("name like ?", "%#{input}%").ids
-          message = Restaurant.create_line_messages(restaurants_ids)
+            # 入力された文字で店名を検索し、lineメッセージを作成する
+            restaurants_ids = Restaurant.where("name like ?", "%#{input}%").ids
+            return client.reply_message(event['replyToken'], {"type": "text", "text": "検索結果はありません"}) if restaurants_ids.blank?
+
+            message = Restaurant.create_line_messages(restaurants_ids)
           end
           client.reply_message(event['replyToken'], message)
         end
