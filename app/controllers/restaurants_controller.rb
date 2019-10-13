@@ -20,10 +20,10 @@ class RestaurantsController < ApplicationController
           if input.to_i != 0
             input_number = input.to_i > 10 ? 10 : input.to_i
             restaurants_ids = Restaurant.all.sample(input_number)
-            message = Restaurant.create_line_messages(restaurants_ids)
+            messages = Restaurant.create_line_messages(restaurants_ids)
           else
             # 入力された文字で店名を検索し、lineメッセージを作成する
-            restaurants_ids = Restaurant.where("name like ?", "%#{input}%").ids
+            restaurants_ids = Restaurant.where("name like ?", "%#{input}%").ids.sample(10)
             return client.reply_message(event['replyToken'], {"type": "text", "text": "検索結果はありません"}) if restaurants_ids.blank?
 
             messages = Restaurant.create_line_messages(restaurants_ids)
