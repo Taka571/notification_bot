@@ -17,7 +17,7 @@ class RestaurantsController < ApplicationController
           # 入力した文字をinputに格納
           input = event.message['text']
           # 入力された文字で店名を検索し、lineメッセージを作成する
-          restaurants_ids = Restaurants.where("name like ?", "%#{input}%").ids
+          restaurants_ids = Restaurant.where("name like ?", "%#{input}%").ids
           message = Restaurant.create_line_messages(restaurants_ids)
           client.reply_message(event['replyToken'], message)
         end
