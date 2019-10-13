@@ -16,7 +16,7 @@ class RestaurantsController < ApplicationController
         when Line::Bot::Event::MessageType::Text
           # 入力した文字をinputに格納
           input = event.message['text']
-          if input == ("全て" || "すべて" || "全部")
+          if input == "全て" || input == "すべて" || input == "全部"
             client.reply_message(event['replyToken'], {"type": "text", "text": "これまでのすべてのレストランをお送りします"})
             message = Restaurant.create_line_messages(Restaurant.all.ids)
           else
