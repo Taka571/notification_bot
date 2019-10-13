@@ -1,18 +1,5 @@
 class Scraping::TodayRamen < Scraping::Base
-  attr_reader :info
-
   TODAY_RAMEN_URL = 'https://ramendb.supleks.jp/ippai'.freeze
-
-  def initialize
-    url = TODAY_RAMEN_URL
-    charset = nil
-    html = open(url) do |u|
-      charset = u.charset
-      u.read
-    end
-    doc = Nokogiri::HTML.parse(html, nil, charset)
-    @info = article_info(doc)
-  end
 
   def notify_article
     content = create_content
@@ -33,13 +20,6 @@ class Scraping::TodayRamen < Scraping::Base
       shop_name: doc.xpath("//*[@id='ippai']/h2/div/div[1]/a").text,
       shop_url: 'https://ramendb.supleks.jp' + doc.xpath("//*[@id='ippai']/h2/div/div[1]/a").first.values[0]
     }
-  end
-
-  def client
-    @client ||= Line::Bot::Client.new do |config|
-      config.channel_secret = ENV['LINE_CHANNEL_SECRET']
-      config.channel_token = ENV['LINE_CHANNEL_TOKEN']
-    end
   end
 
   def create_content

@@ -1,19 +1,5 @@
 class Scraping::NewOpen < Scraping::Base
-
-  attr_reader :info
-
   RAMEN_NEW_OPEN_URL = 'https://tabelog.com/tokyo/rstLst/cond16-00-00/ramen/'.freeze
-
-  def initialize
-    url = RAMEN_NEW_OPEN_URL
-    charset = nil
-    html = open(url) do |u|
-      charset = u.charset
-      u.read
-    end
-    doc = Nokogiri::HTML.parse(html, nil, charset)
-    @info = article_info(doc)
-  end
 
   def notify
     if info.blank?
@@ -43,12 +29,5 @@ class Scraping::NewOpen < Scraping::Base
       new_restaurant.save!
       new_restaurant.id
     end.compact.take(10)
-  end
-
-  def client
-    @client ||= Line::Bot::Client.new do |config|
-      config.channel_secret = ENV['LINE_CHANNEL_SECRET']
-      config.channel_token = ENV['LINE_CHANNEL_TOKEN']
-    end
   end
 end
