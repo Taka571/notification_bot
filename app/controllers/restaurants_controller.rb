@@ -16,8 +16,11 @@ class RestaurantsController < ApplicationController
         when Line::Bot::Event::MessageType::Text
           # 入力した文字をinputに格納
           input = event.message['text']
-          if input == "全て" || input == "すべて" || input == "全部"
-            message = Restaurant.create_line_messages(Restaurant.all.ids)
+          # 入力した文字が数字だった場合にはその件数分返す(上限は10件のため、10以上は10とする)
+          if input.to_i != 0
+            input_number = input.to_i > 10 ? 10 : input.to_i
+            restaurants_ids = Restaurant.all.sample(input_number)
+            message = Restaurant.create_line_messages(restaurants_ids)
           else
             # 入力された文字で店名を検索し、lineメッセージを作成する
             restaurants_ids = Restaurant.where("name like ?", "%#{input}%").ids
@@ -25,7 +28,7 @@ class RestaurantsController < ApplicationController
 
             messages = Restaurant.create_line_messages(restaurants_ids)
           end
-          client.reply_message(event['replyToken'], message)
+          client.reply_message(event['replyToken'], messages)
         end
       end
     end
