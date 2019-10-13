@@ -1,24 +1,8 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+日頃チェックしている記事、新規オープンのレストランなど、いちいちサイト巡回するのめんどくね？
+という動機から作成した通知BOT。
 
-Things you may want to cover:
+完全に自分用ですが、LINEの環境変数やLINE_USER_IDを変えれば他の方でも使えます。
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+今後は毎日巡回しているサイトの全てを自動化していきたい。
