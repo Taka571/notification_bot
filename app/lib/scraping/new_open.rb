@@ -1,6 +1,6 @@
 class Scraping::NewOpen < Scraping::Base
 
-  attr_reader :ids
+  attr_reader :info
 
   RAMEN_NEW_OPEN_URL = 'https://tabelog.com/tokyo/rstLst/cond16-00-00/ramen/'.freeze
 
@@ -12,15 +12,15 @@ class Scraping::NewOpen < Scraping::Base
       u.read
     end
     doc = Nokogiri::HTML.parse(html, nil, charset)
-    @ids = article_info(doc)
+    @info = article_info(doc)
   end
 
   def notify
-    if ids.blank?
+    if info.blank?
       client.push_message(ENV['LINE_USER_ID'], {"type": "text", "text": "新着のオープンはありません"})
       return
     end
-    content = Restaurant.create_line_messages(ids)
+    content = Restaurant.create_line_messages(info)
     response = client.push_message(ENV['LINE_USER_ID'], content)
     raise unless response.code == "200"
   rescue => e
