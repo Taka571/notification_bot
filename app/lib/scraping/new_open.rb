@@ -1,12 +1,11 @@
-class NewOpen
-  require 'nokogiri'
-  require 'open-uri'
-  require 'line/bot'
+class Scraping::NewOpen < Scraping::Base
 
   attr_reader :ids
 
+  RAMEN_NEW_OPEN_URL = 'https://tabelog.com/tokyo/rstLst/cond16-00-00/ramen/'.freeze
+
   def initialize
-    url = 'https://tabelog.com/tokyo/rstLst/cond16-00-00/ramen/'
+    url = RAMEN_NEW_OPEN_URL
     charset = nil
     html = open(url) do |u|
       charset = u.charset

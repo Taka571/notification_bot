@@ -1,12 +1,10 @@
-class TodayRamen
-  require 'nokogiri'
-  require 'open-uri'
-  require 'line/bot'
-
+class Scraping::TodayRamen < Scraping::Base
   attr_reader :info
 
+  TODAY_RAMEN_URL = 'https://ramendb.supleks.jp/ippai'.freeze
+
   def initialize
-    url = 'https://ramendb.supleks.jp/ippai'
+    url = TODAY_RAMEN_URL
     charset = nil
     html = open(url) do |u|
       charset = u.charset
