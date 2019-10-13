@@ -23,7 +23,7 @@ class RestaurantsController < ApplicationController
             restaurants_ids = Restaurant.where("name like ?", "%#{input}%").ids
             return client.reply_message(event['replyToken'], {"type": "text", "text": "検索結果はありません"}) if restaurants_ids.blank?
 
-            message = Restaurant.create_line_messages(restaurants_ids)
+            messages = Restaurant.create_line_messages(restaurants_ids)
           end
           client.reply_message(event['replyToken'], message)
         end
