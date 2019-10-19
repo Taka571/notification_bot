@@ -9,6 +9,14 @@ module Api
           render json: { status: "failure", messages: "No records" }
         end
       end
+
+      def show
+        if restaurant = Restaurant.find(params[:id])
+          render json: { status: "success", messages: "Loaded restaurant, id=#{restaurant.id}", date: restaurant}
+        else
+          render json: { status: "failure", messages: "Not found" }
+        end
+      end
     end
   end
 end
