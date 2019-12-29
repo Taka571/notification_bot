@@ -6,4 +6,8 @@ namespace :notify do
   task new_open: :environment do
     Scraping::NewOpen.new(Scraping::NewOpen::RAMEN_NEW_OPEN_URL).notify
   end
+
+  task garbage: :environment do
+    GarbageDay.notify
+  end
 end
