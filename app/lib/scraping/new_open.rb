@@ -30,16 +30,20 @@ class Scraping::NewOpen < Scraping::Base
   def article_info(doc)
     res = doc.xpath("//*[@id='column-main']/ul/li")
     restaurant_ids = res.map.with_index(1) do |r, i|
-      new_restaurant = Restaurant.new(
-        name: r.xpath("//li[#{i}]/div[2]/div[1]/div/div/div/a")&.text || "no name",
-        image: r.xpath("//li[#{i}]/div[2]/div[2]").css("img")&.first&.values&.slice(2) || "no image",
-        place: r.xpath("//li[#{i}]/div[2]/div[1]/div/div/div/span")&.text[/(.*m)/] || "not found",
-        url: r.xpath("//li[#{i}]/div[2]/div[1]/div/div/div/a")&.first&.values&.slice(3) || "not found",
-        open_date: r.xpath("//li[#{i}]/div[2]/div[2]/div[1]/div[2]/p").text.gsub("年", "/").to_date
-      )
-      next if Restaurant.find_by(name: new_restaurant.name) || new_restaurant.name == "no name" || new_restaurant.name == ""
-      new_restaurant.save!
-      new_restaurant.id
+      begin
+        new_restaurant = Restaurant.new(
+          name: r.xpath("//li[#{i}]/div[2]/div[1]/div/div/div/a")&.text || "no name",
+          image: r.xpath("//li[#{i}]/div[2]/div[2]").css("img")&.first&.values&.slice(2) || "no image",
+          place: r.xpath("//li[#{i}]/div[2]/div[1]/div/div/div/span")&.text[/(.*m)/] || "not found",
+          url: r.xpath("//li[#{i}]/div[2]/div[1]/div/div/div/a")&.first&.values&.slice(3) || "not found",
+          open_date: r.xpath("//li[#{i}]/div[2]/div[2]/div[1]/div[2]/p").text.gsub("年", "/").to_date
+        )
+        next if Restaurant.find_by(name: new_restaurant.name) || new_restaurant.name == "no name" || new_restaurant.name == ""
+        new_restaurant.save!
+        new_restaurant.id
+      rescue => e
+        client.push_message(ENV['LINE_USER_ID'], {"type": "text", "text": "エラー発生: #{new_restaurant}"})
+      end
     end.compact.take(10)
   end
 end
