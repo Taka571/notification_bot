@@ -2,6 +2,7 @@ class Scraping::Base
   require 'nokogiri'
   require 'open-uri'
   require 'line/bot'
+  require 'selenium-webdriver'
 
   private
 
