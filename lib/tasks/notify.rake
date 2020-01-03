@@ -10,4 +10,8 @@ namespace :notify do
   task garbage: :environment do
     GarbageDay.notify
   end
+
+  task real_time_trend: :environment do
+    Scraping::RealTimeTrend.new.notify
+  end
 end
