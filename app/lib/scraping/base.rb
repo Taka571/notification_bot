@@ -3,18 +3,6 @@ class Scraping::Base
   require 'open-uri'
   require 'line/bot'
 
-  attr_reader :info
-
-  def initialize(url)
-    charset = nil
-    html = open(url) do |u|
-      charset = u.charset
-      u.read
-    end
-    doc = Nokogiri::HTML.parse(html, nil, charset)
-    @info = article_info(doc)
-  end
-
   private
 
   def client

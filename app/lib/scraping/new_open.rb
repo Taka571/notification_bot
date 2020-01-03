@@ -1,5 +1,17 @@
 class Scraping::NewOpen < Scraping::Base
+  attr_reader :info
+
   RAMEN_NEW_OPEN_URL = 'https://tabelog.com/tokyo/rstLst/cond16-00-00/ramen/'.freeze
+
+  def initialize
+    charset = nil
+    html = open(RAMEN_NEW_OPEN_URL) do |u|
+      charset = u.charset
+      u.read
+    end
+    doc = Nokogiri::HTML.parse(html, nil, charset)
+    @info = article_info(doc)
+  end
 
   def notify
     if info.blank?

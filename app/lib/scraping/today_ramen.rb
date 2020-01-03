@@ -1,5 +1,17 @@
 class Scraping::TodayRamen < Scraping::Base
+  attr_reader :info
+
   TODAY_RAMEN_URL = 'https://ramendb.supleks.jp/ippai'.freeze
+
+  def initialize
+    charset = nil
+    html = open(TODAY_RAMEN_URL) do |u|
+      charset = u.charset
+      u.read
+    end
+    doc = Nokogiri::HTML.parse(html, nil, charset)
+    @info = article_info(doc)
+  end
 
   def notify_article
     content = create_content
