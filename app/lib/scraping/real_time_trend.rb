@@ -42,6 +42,17 @@ class Scraping::RealTimeTrend < Scraping::Base
 
   def line_messages
     ranks = ranking.sort.to_h.each_with_object({}) do |(k,v), rank|
+      color = case k
+      when 1
+        "#E3AB00"
+      when 2
+        "#C9CACA"
+      when 3
+        "#BA6E40"
+      else
+        "#000000"
+      end
+
       rank[k] = 
         {
           "type": "text",
@@ -49,6 +60,7 @@ class Scraping::RealTimeTrend < Scraping::Base
           "wrap": true,
           "weight": "bold",
           "size": "xl",
+          "color": color,
           "action": {
             "type": "uri",
             "label": "#{k}位",
