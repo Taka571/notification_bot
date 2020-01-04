@@ -56,7 +56,7 @@ class Scraping::RealTimeTrend < Scraping::Base
       rank[k] = 
         {
           "type": "text",
-          "text": "#{k}位. #{v[:text]}",
+          "text": "#{k}.   #{v[:text]}",
           "wrap": true,
           "weight": "bold",
           "size": "xl",
