@@ -35,7 +35,7 @@ class Scraping::RealTimeTrend < Scraping::Base
   def create_line_messages
     {
       "type": "flex",
-      "altText": "#{Time.zone.now.strftime("%Y/%m/%d %H:%S")}\nトレンドランキング",
+      "altText": "#{Time.zone.now.strftime("%Y/%m/%d %H:%M")}\nトレンドランキング",
       "contents": line_messages,
     }
   end
