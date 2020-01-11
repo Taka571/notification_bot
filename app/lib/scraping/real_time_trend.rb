@@ -27,7 +27,7 @@ class Scraping::RealTimeTrend < Scraping::Base
     response = client.broadcast(content)
     raise unless response.code == "200"
   rescue => e
-    client.push_message(ENV['LINE_USER_ID'], {"type": "text", "text": "エラー発生中"})
+    client.push_message(ENV['LINE_USER_ID'], {"type": "text", "text": "Error has occured: #{response.msg}"})
   end
 
   private
