@@ -35,9 +35,25 @@ class Scraping::RealTimeTrend < Scraping::Base
   def create_line_messages
     {
       "type": "flex",
-      "altText": "#{Time.zone.now.strftime("%Y/%m/%d %H:%M")}\nトレンドランキング",
+      "altText": ranking_from_1st_to_10th,
       "contents": line_messages,
     }
+  end
+
+  def ranking_from_1st_to_10th
+    <<~TEXT
+      #{Time.zone.now.strftime("%Y/%m/%d/%H:%M")}                                                                                              
+      1. #{ranking[1][:text]}\t
+      2. #{ranking[2][:text]}\t
+      3. #{ranking[3][:text]}\t
+      4. #{ranking[4][:text]}\t
+      5. #{ranking[5][:text]}\t
+      6. #{ranking[6][:text]}\t
+      7. #{ranking[7][:text]}\t
+      8. #{ranking[8][:text]}\t
+      9. #{ranking[9][:text]}\t
+      10. #{ranking[10][:text]}\t
+    TEXT
   end
 
   def line_messages
