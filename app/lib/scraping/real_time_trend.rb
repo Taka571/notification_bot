@@ -4,7 +4,7 @@ class Scraping::RealTimeTrend < Scraping::Base
 
   def initialize
     driver = Selenium::WebDriver.for(:chrome)
-    driver.navigate.to "https://search.yahoo.co.jp/realtime"
+    driver.navigate.to(REAL_TIME_TREND_URL)
     @ranking = {}
     1.upto(5) do |num|
       # 1〜5位まで
