@@ -3,7 +3,7 @@ class Restaurant < ApplicationRecord
     restaurant = where(id: ids)
     {
       "type": "flex",
-      "altText": "ニューオープン",
+      "altText": "ニューオープン #{restaurants.pluck(:name).join(",")}",
       "contents":
       {
         "type": "carousel",

@@ -37,7 +37,7 @@ class Scraping::TodayRamen < Scraping::Base
   def create_content
     {
       "type": "flex",
-      "altText": "今日(#{Time.zone.today.strftime("%Y/%m/%d")}の一杯)",
+      "altText": "今日(#{Time.zone.today.strftime("%Y/%m/%d")}の一杯) #{info[:shop_name]}",
       "contents":
       {
         "type": "carousel",
