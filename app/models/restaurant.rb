@@ -1,13 +1,13 @@
 class Restaurant < ApplicationRecord
   def self.create_line_messages(ids)
-    restaurant = where(id: ids)
+    restaurants = where(id: ids)
     {
       "type": "flex",
       "altText": "ニューオープン #{restaurants.pluck(:name).join(",")}",
       "contents":
       {
         "type": "carousel",
-        "contents":  restaurant.map { |r| r.line_messages },
+        "contents":  restaurants.map { |r| r.line_messages },
       }
     }
   end
