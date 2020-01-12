@@ -6,6 +6,8 @@ class Scraping::Base
 
   private
 
+  # Override this method in child class.
+  # This method specifies the line channel individually.
   def client
     @client ||= Line::Bot::Client.new do |config|
       config.channel_secret = ENV['LINE_CHANNEL_SECRET']
