@@ -1,5 +1,5 @@
 class Scraping::TodayRamen < Scraping::Base
-  attr_reader :info
+  attr_reader :article_info
 
   TODAY_RAMEN_URL = 'https://ramendb.supleks.jp/ippai'.freeze
 
@@ -9,14 +9,14 @@ class Scraping::TodayRamen < Scraping::Base
       charset = u.charset
       u.read
     end
-    doc = Nokogiri::HTML.parse(html, nil, charset)
-    @info = article_info(doc)
+    page_info = Nokogiri::HTML.parse(html, nil, charset)
+    @article_info = fetch_article_info_from_page(page_info)
   end
 
   def notify_article
-    content = create_content
-    raise if content.blank?
-    response = client.push_message(ENV['LINE_USER_ID'], content)
+    message = create_line_message
+    raise if message.blank?
+    response = client.push_message(ENV['LINE_USER_ID'], message)
     raise unless response.code == "200"
   rescue => e
     client.push_message(ENV['LINE_USER_ID'], {"type": "text", "text": "エラー発生中"})
@@ -24,20 +24,20 @@ class Scraping::TodayRamen < Scraping::Base
 
   private
 
-  def article_info(doc)
+  def fetch_article_info_from_page(page_info)
     {
-      article: doc.xpath("//*[@id='ippai']/div[3]/p").text.truncate(100),
-      image: doc.xpath("//*[@id='ippai']/div[2]/a/img").first.values[0],
-      place: doc.xpath("//*[@id='ippai']/h2/div/div[2]/text()[1]").text,
-      shop_name: doc.xpath("//*[@id='ippai']/h2/div/div[1]/a").text,
-      shop_url: 'https://ramendb.supleks.jp' + doc.xpath("//*[@id='ippai']/h2/div/div[1]/a").first.values[0]
+      article: page_info.xpath("//*[@id='ippai']/div[3]/p").text.truncate(100),
+      image: page_info.xpath("//*[@id='ippai']/div[2]/a/img").first.values[0],
+      place: page_info.xpath("//*[@id='ippai']/h2/div/div[2]/text()[1]").text,
+      shop_name: page_info.xpath("//*[@id='ippai']/h2/div/div[1]/a").text,
+      shop_url: 'https://ramendb.supleks.jp' + page_info.xpath("//*[@id='ippai']/h2/div/div[1]/a").first.values[0]
     }
   end
 
-  def create_content
+  def create_line_message
     {
       "type": "flex",
-      "altText": "今日(#{Time.zone.today.strftime("%Y/%m/%d")}の一杯) #{info[:shop_name]}",
+      "altText": "今日(#{Time.zone.today.strftime("%Y/%m/%d")}の一杯) #{article_info[:shop_name]}",
       "contents":
       {
         "type": "carousel",
@@ -49,11 +49,11 @@ class Scraping::TodayRamen < Scraping::Base
               "size": "full",
               "aspectRatio": "20:13",
               "aspectMode": "cover",
-              "url": info[:image],
+              "url": article_info[:image],
               "action": {
                 "type": "uri",
-                "label": info[:shop_name],
-                "uri": info[:shop_url],
+                "label": article_info[:shop_name],
+                "uri": article_info[:shop_url],
               }
             },
             "body":
@@ -72,19 +72,19 @@ class Scraping::TodayRamen < Scraping::Base
                 },
                 {
                   "type": "text",
-                  "text": info[:shop_name],
+                  "text": article_info[:shop_name],
                   "wrap": true,
                   "weight": "bold",
                   "size": "xl",
                   "action": {
                     "type": "uri",
-                    "label": info[:shop_name],
-                    "uri": info[:shop_url],
+                    "label": article_info[:shop_name],
+                    "uri": article_info[:shop_url],
                   }
                 },
                 {
                   "type": "text",
-                  "text": info[:place],
+                  "text": article_info[:place],
                   "wrap": true,
                   "color": "#aaaaaa",
                   "size": "sm"
@@ -95,7 +95,7 @@ class Scraping::TodayRamen < Scraping::Base
                   "contents": [
                     {
                       "type": "text",
-                      "text": info[:article],
+                      "text": article_info[:article],
                       "wrap": true,
                       "weight": "bold",
                       "flex": 0

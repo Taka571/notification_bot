@@ -1,5 +1,5 @@
 class Scraping::NewOpen < Scraping::Base
-  attr_reader :info
+  attr_reader :saved_restaurant_ids
 
   RAMEN_NEW_OPEN_URL = 'https://tabelog.com/tokyo/rstLst/cond16-00-00/ramen/'.freeze
 
@@ -9,16 +9,16 @@ class Scraping::NewOpen < Scraping::Base
       charset = u.charset
       u.read
     end
-    doc = Nokogiri::HTML.parse(html, nil, charset)
-    @info = article_info(doc)
+    page_info = Nokogiri::HTML.parse(html, nil, charset)
+    @saved_restaurant_ids = save_new_open_restaurants_from_page(page_info)
   end
 
   def notify
-    if info.blank?
+    if saved_restaurant_ids.blank?
       client.push_message(ENV['LINE_USER_ID'], {"type": "text", "text": "新着のオープンはありません"})
       return
     end
-    messages = Restaurant.create_line_messages(info)
+    messages = Restaurant.create_line_messages(saved_restaurant_ids)
     response = client.push_message(ENV['LINE_USER_ID'], messages)
     raise unless response.code == "200"
   rescue => e
@@ -27,8 +27,8 @@ class Scraping::NewOpen < Scraping::Base
 
   private
 
-  def article_info(doc)
-    res = doc.xpath("//*[@id='column-main']/ul/li")
+  def save_new_open_restaurants_from_page(page_info)
+    res = page_info.xpath("//*[@id='column-main']/ul/li")
     restaurant_ids = res.map.with_index(1) do |r, i|
       begin
         new_restaurant = Restaurant.new(
