@@ -22,9 +22,9 @@ class Scraping::RealTimeTrend < Scraping::Base
   end
 
   def notify
-    content = create_line_messages
-    raise if content.blank?
-    response = client.broadcast(content)
+    messages = create_line_messages
+    raise if messages.blank?
+    response = client.broadcast(messages)
     raise unless response.code == "200"
   rescue => e
     client.push_message(ENV['LINE_USER_ID'], {"type": "text", "text": "Error has occurred: #{response.msg}"})

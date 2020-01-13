@@ -18,8 +18,8 @@ class Scraping::NewOpen < Scraping::Base
       client.push_message(ENV['LINE_USER_ID'], {"type": "text", "text": "新着のオープンはありません"})
       return
     end
-    content = Restaurant.create_line_messages(info)
-    response = client.push_message(ENV['LINE_USER_ID'], content)
+    messages = Restaurant.create_line_messages(info)
+    response = client.push_message(ENV['LINE_USER_ID'], messages)
     raise unless response.code == "200"
   rescue => e
     client.push_message(ENV['LINE_USER_ID'], {"type": "text", "text": "エラー発生中"})
