@@ -14,4 +14,8 @@ namespace :notify do
   task real_time_trend: :environment do
     Scraping::RealTimeTrend.new.notify
   end
+
+  task hatena_hot_entry: :environment do
+    Scraping::HatenaHotEntry.new.notify
+  end
 end
