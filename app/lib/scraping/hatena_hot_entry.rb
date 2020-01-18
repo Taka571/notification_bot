@@ -11,11 +11,12 @@ class Scraping::HatenaHotEntry < Scraping::Base
     begin
       image_url = driver
         .find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/div[1]/a/p[2]/span")
-        .attribute("style").slice(/(?<=url\()(.*)(.*)(?=\);)/)
-        .gsub("\"", "")
+        .attribute("style")
+        .slice(/(?<=url\()(.*)(.*)(?=\);)/) # cssのbackground-imageからimage URLを抜き出す
+        .gsub("\"", "") # 稀に""文字が混ざりBad Requestになるので置換する
 
       raise Selenium::WebDriver::Error::NoSuchElementError if image_url.nil?
-    rescue Selenium::WebDriver::Error::NoSuchElementError
+    rescue Selenium::WebDriver::Error::NoSuchElementError # 画像が見つからなかったら404画像を差し込む
       image_url = "https://cdn-ak.f.st-hatena.com/images/fotolife/d/dunbine6000/20190505/20190505190158.png"
     end
 
