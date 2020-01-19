@@ -58,7 +58,12 @@ class Scraping::HatenaHotEntry < Scraping::Base
     response = client.push_message(ENV['LINE_USER_ID'], line_messages)
     raise unless response.code == "200"
   rescue => e
-    client.push_message(ENV['LINE_USER_ID'], {"type": "text", "text": "Error has occurred: #{response.msg}"})
+    client.push_message(
+      ENV['LINE_USER_ID'],{
+        "type": "text",
+        "text": "Error has occurred: #{response.msg}, reason: #{response.body&.force_encoding("UTF-8")}"
+      }
+    )
   end
 
   private
