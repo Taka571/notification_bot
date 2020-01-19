@@ -123,7 +123,7 @@ class Scraping::HatenaHotEntry < Scraping::Base
               "size": "xl",
               "action": {
                 "type": "uri",
-                "label": value[:title],
+                "label": value[:title].truncate(30),
                 "uri": value[:url],
               }
             },
