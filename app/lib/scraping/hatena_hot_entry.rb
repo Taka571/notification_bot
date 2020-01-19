@@ -22,6 +22,7 @@ class Scraping::HatenaHotEntry < Scraping::Base
 
     @ranking[1] = {
       users: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/span/a/span").text,
+      comment_page_url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/span/a").attribute("href"),
       title: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/h3/a").text.gsub("\"", ""),
       url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/h3/a").attribute("href"),
       category: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/div[2]/ul[1]/li[1]/a").text,
@@ -44,6 +45,7 @@ class Scraping::HatenaHotEntry < Scraping::Base
 
       @ranking[num + 1] = {
         users: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/span/a/span").text,
+        comment_page_url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/span/a").attribute("href"),
         title: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/h3/a").text.gsub("\"", ""),
         url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/h3/a").attribute("href"),
         category: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/div[2]/ul[1]/li[1]/a").text,
@@ -157,8 +159,8 @@ class Scraping::HatenaHotEntry < Scraping::Base
               "style": "link",
               "action": {
                 "type": "uri",
-                "label": "WEBSITE",
-                "uri": value[:url]
+                "label": "はてなで見る",
+                "uri": value[:comment_page_url]
               }
             }
           ]
