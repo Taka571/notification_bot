@@ -66,7 +66,7 @@ class Scraping::HatenaHotEntry < Scraping::Base
   def create_line_messages
     {
       "type": "flex",
-      "altText": ranking_from_1st_to_5th,
+      "altText": ranking_from_1st_to_10th,
       "contents":
       {
         "type": "carousel",
@@ -75,13 +75,18 @@ class Scraping::HatenaHotEntry < Scraping::Base
     }
   end
 
-  def ranking_from_1st_to_5th
+  def ranking_from_1st_to_10th
     <<~TEXT
-      1. #{ranking[1][:title]}\t
-      2. #{ranking[2][:title]}\t
-      3. #{ranking[3][:title]}\t
-      4. #{ranking[4][:title]}\t
-      5. #{ranking[5][:title]}\t
+      1. #{ranking[1][:title].truncate(10)}\t
+      2. #{ranking[2][:title].truncate(10)}\t
+      3. #{ranking[3][:title].truncate(10)}\t
+      4. #{ranking[4][:title].truncate(10)}\t
+      5. #{ranking[5][:title].truncate(10)}\t
+      6. #{ranking[6][:title].truncate(10)}\t
+      7. #{ranking[7][:title].truncate(10)}\t
+      8. #{ranking[8][:title].truncate(10)}\t
+      9. #{ranking[9][:title].truncate(10)}\t
+      10. #{ranking[10][:title].truncate(10)}\t
     TEXT
   end
 
