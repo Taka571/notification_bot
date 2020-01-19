@@ -30,7 +30,7 @@ class Scraping::RealTimeTrend < Scraping::Base
     error_client.push_message(
       ENV['LINE_USER_ID'],{
         "type": "text",
-        "text": "Error has occurred: #{response.msg}, reason: #{response.body&.force_encoding("UTF-8")}"
+        "text": "Error has occurred in #{self.class}, reason: #{response.body&.force_encoding("UTF-8")}"
       }
     )
   end
