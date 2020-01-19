@@ -1,10 +1,10 @@
 class Scraping::HatenaHotEntry < Scraping::Base
   attr_reader :ranking
-  ALL_HOT_ENTRY_URL = "https://b.hatena.ne.jp/hotentry/all".freeze
+  BASE_URL = "https://b.hatena.ne.jp/hotentry".freeze
 
-  def initialize
+  def initialize(category: :all)
     driver = Selenium::WebDriver.for(:chrome)
-    driver.navigate.to(ALL_HOT_ENTRY_URL)
+    driver.navigate.to("#{BASE_URL}/#{category}")
     @ranking = {}
 
     # 1位

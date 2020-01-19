@@ -16,6 +16,7 @@ namespace :notify do
   end
 
   task hatena_hot_entry: :environment do
-    Scraping::HatenaHotEntry.new.notify
+    Scraping::HatenaHotEntry.new(category: :all).notify
+    Scraping::HatenaHotEntry.new(category: :it).notify
   end
 end
