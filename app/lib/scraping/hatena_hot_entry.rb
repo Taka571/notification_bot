@@ -24,7 +24,7 @@ class Scraping::HatenaHotEntry < Scraping::Base
       users: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/span/a/span").text,
       comment_page_url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/span/a").attribute("href"),
       title: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/h3/a").text.gsub("\"", ""),
-      url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/h3/a").attribute("href"),
+      page_url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/h3/a").attribute("href"),
       category: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/div/ul/li/div/div[2]/div[2]/ul[1]/li[1]/a").text,
       image: image_url,
     }
@@ -47,7 +47,7 @@ class Scraping::HatenaHotEntry < Scraping::Base
         users: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/span/a/span").text,
         comment_page_url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/span/a").attribute("href"),
         title: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/h3/a").text.gsub("\"", ""),
-        url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/h3/a").attribute("href"),
+        page_url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/h3/a").attribute("href"),
         category: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/div[2]/ul[1]/li[1]/a").text,
         image: image_url,
       }
@@ -110,7 +110,7 @@ class Scraping::HatenaHotEntry < Scraping::Base
           "action": {
             "type": "uri",
             "label": "画像",
-            "uri": value[:url],
+            "uri": value[:page_url],
           }
         },
         "body":
@@ -136,7 +136,7 @@ class Scraping::HatenaHotEntry < Scraping::Base
               "action": {
                 "type": "uri",
                 "label": value[:title].truncate(30),
-                "uri": value[:url],
+                "uri": value[:page_url],
               }
             },
             {
