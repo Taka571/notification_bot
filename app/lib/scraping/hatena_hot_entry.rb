@@ -15,8 +15,10 @@ class Scraping::HatenaHotEntry < Scraping::Base
         .slice(/(?<=url\()(.*)(.*)(?=\);)/) # cssのbackground-imageからimage URLを抜き出す
         .gsub("\"", "") # 稀に""文字が混ざりBad Requestになるので置換する
 
-      raise Selenium::WebDriver::Error::NoSuchElementError if image_url.nil?
-    rescue Selenium::WebDriver::Error::NoSuchElementError # 画像が見つからなかったら404画像を差し込む
+      raise if image_url.size > 1000 # 画像URLの文字数が1000文字以上だった場合Bad Requestになる
+      raise if image_url.nil?        # 画像が見つからなかった場合
+    rescue
+      # 例外が発生した場合は404画像を差し込む
       image_url = "https://cdn-ak.f.st-hatena.com/images/fotolife/d/dunbine6000/20190505/20190505190158.png"
     end
 
@@ -38,8 +40,10 @@ class Scraping::HatenaHotEntry < Scraping::Base
           .slice(/(?<=url\()(.*)(.*)(?=\);)/)
           .gsub("\"", "")
 
-        raise Selenium::WebDriver::Error::NoSuchElementError if image_url.nil?
-      rescue Selenium::WebDriver::Error::NoSuchElementError
+        raise if image_url.size > 1000 # 画像URLの文字数が1000文字以上だった場合Bad Requestになる
+        raise if image_url.nil?        # 画像が見つからなかった場合
+      rescue
+        # 例外が発生した場合は404画像を差し込む
         image_url = "https://cdn-ak.f.st-hatena.com/images/fotolife/d/dunbine6000/20190505/20190505190158.png"
       end
 
