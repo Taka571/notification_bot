@@ -129,7 +129,8 @@ class Scraping::HatenaHotEntry < Scraping::Base
               "wrap": true,
               "margin": "md",
               "flex": 0,
-              "weight": "bold"
+              "weight": "bold",
+              "color": "#00a5de",
             },
             {
               "type": "text",
@@ -156,14 +157,14 @@ class Scraping::HatenaHotEntry < Scraping::Base
           "type": "box",
           "layout": "vertical",
           "spacing": "sm",
-          "backgroundColor": "#f5f5f5",
+          "backgroundColor": "#00a5de",
           "contents": [
             {
               "type": "button",
               "style": "link",
               "action": {
                 "type": "uri",
-                "label": "はてなで見る",
+                "label": "はてブで見る",
                 "uri": value[:comment_page_url]
               }
             }
