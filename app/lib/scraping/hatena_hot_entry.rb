@@ -49,14 +49,18 @@ class Scraping::HatenaHotEntry < Scraping::Base
         image_url = "https://cdn-ak.f.st-hatena.com/images/fotolife/d/dunbine6000/20190505/20190505190158.png"
       end
 
-      @ranking[num + 1] = {
-        users: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/span/a/span").text,
-        comment_page_url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/span/a").attribute("href"),
-        title: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/h3/a").text.gsub("\"", ""),
-        page_url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/h3/a").attribute("href"),
-        category: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/div[2]/ul[1]/li[1]/a").text,
-        image: image_url,
-      }
+      begin
+        @ranking[num + 1] = {
+          users: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/span/a/span").text,
+          comment_page_url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/span/a").attribute("href"),
+          title: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/h3/a").text.gsub("\"", ""),
+          page_url: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/h3/a").attribute("href"),
+          category: driver.find_element(:xpath, "//*[@id='container']/div[4]/div/div[1]/section/ul/li[#{num}]/div/div[2]/div[2]/ul[1]/li[1]/a").text,
+          image: image_url,
+        }
+      rescue => e
+        @ranking.delete(num + 1) # 広告の場合取れない＆いらないので削除する
+      end
     end
   end
 
