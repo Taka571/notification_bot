@@ -21,4 +21,8 @@ namespace :notify do
     Scraping::HatenaHotEntry.new(category: :all).notify
     Scraping::HatenaHotEntry.new(category: :it).notify
   end
+
+  task qiita_trend: :environment do
+    Scraping::QiitaTrend.new.notify
+  end
 end
