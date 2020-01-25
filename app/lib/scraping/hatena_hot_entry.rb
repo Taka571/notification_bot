@@ -1,6 +1,7 @@
 class Scraping::HatenaHotEntry < Scraping::Base
   attr_reader :ranking
   BASE_URL = "https://b.hatena.ne.jp/hotentry".freeze
+  EXEC_HOURS = [5, 8, 11, 14, 17, 20, 23].freeze
 
   # category => all, it, general, social, economics, life, knowledge, fun, entertainment, game
 
