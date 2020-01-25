@@ -23,6 +23,8 @@ namespace :notify do
   end
 
   task qiita_trend: :environment do
+    return unless Scraping::QiitaTrend::EXEC_HOURS.include?(Time.zone.now.hour)
+
     Scraping::QiitaTrend.new.notify
   end
 end

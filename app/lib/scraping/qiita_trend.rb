@@ -1,6 +1,7 @@
 class Scraping::QiitaTrend < Scraping::Base
   attr_reader :ranking
   TREND_URL = "https://qiita.com".freeze
+  EXEC_HOURS = [7, 15, 20].freeze
 
   # TODO: Scraping::RealTimeTrend.new.crawling_qiitaみたいに統合する
   def initialize
