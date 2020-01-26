@@ -18,11 +18,11 @@ class Scraping::TodayRamen < Scraping::Base
 
   def fetch_article_info_from_page(page_info)
     {
-      article: page_info.xpath("//*[@id='ippai']/div[3]/p").text.truncate(100),
-      image: page_info.xpath("//*[@id='ippai']/div[2]/a/img").first.values[0],
-      place: page_info.xpath("//*[@id='ippai']/h2/div/div[2]/text()[1]").text,
+      article:   page_info.xpath("//*[@id='ippai']/div[3]/p").text.truncate(100),
+      image:     page_info.xpath("//*[@id='ippai']/div[2]/a/img").first.values[0],
+      place:     page_info.xpath("//*[@id='ippai']/h2/div/div[2]/text()[1]").text,
       shop_name: page_info.xpath("//*[@id='ippai']/h2/div/div[1]/a").text,
-      shop_url: 'https://ramendb.supleks.jp' + page_info.xpath("//*[@id='ippai']/h2/div/div[1]/a").first.values[0]
+      shop_url:  "https://ramendb.supleks.jp" + page_info.xpath("//*[@id='ippai']/h2/div/div[1]/a").first.values[0]
     }
   end
 end

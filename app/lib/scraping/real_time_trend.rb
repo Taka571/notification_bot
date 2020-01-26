@@ -11,13 +11,13 @@ class Scraping::RealTimeTrend < Scraping::Base
       # 1〜5位まで
       @ranking[num] = {
         text: driver.find_element(:xpath, "//*[@id='Te']/div[2]/div[1]/div[#{num}]/p/a").text,
-        url: driver.find_element(:xpath, "//*[@id='Te']/div[2]/div[1]/div[#{num}]/p/a").attribute("href"),
+        url:  driver.find_element(:xpath, "//*[@id='Te']/div[2]/div[1]/div[#{num}]/p/a").attribute("href"),
       }
 
       # 6〜10位まで
       @ranking[num + 5] = {
         text: driver.find_element(:xpath, "//*[@id='Te']/div[2]/div[2]/div[#{num}]/p/a").text,
-        url: driver.find_element(:xpath, "//*[@id='Te']/div[2]/div[2]/div[#{num}]/p/a").attribute("href"),
+        url:  driver.find_element(:xpath, "//*[@id='Te']/div[2]/div[2]/div[#{num}]/p/a").attribute("href"),
       }
     end
   end

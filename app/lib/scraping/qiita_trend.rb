@@ -12,8 +12,8 @@ class Scraping::QiitaTrend < Scraping::Base
     1.upto(10) do |num|
       @ranking[num] = {
         title: driver.find_element(:xpath, "/html/body/div[1]/div[3]/div[2]/div/div[2]/div/div/div[3]/div[#{num}]/div/a").text,
-        url: driver.find_element(:xpath, "/html/body/div[1]/div[3]/div[2]/div/div[2]/div/div/div[3]/div[#{num}]/div/a").attribute("href"),
-        like: driver.find_element(:xpath, "/html/body/div[1]/div[3]/div[2]/div/div[2]/div/div/div[3]/div[#{num}]/div/div/div").text,
+        url:   driver.find_element(:xpath, "/html/body/div[1]/div[3]/div[2]/div/div[2]/div/div/div[3]/div[#{num}]/div/a").attribute("href"),
+        like:  driver.find_element(:xpath, "/html/body/div[1]/div[3]/div[2]/div/div[2]/div/div/div[3]/div[#{num}]/div/div/div").text,
       }
     end
   end

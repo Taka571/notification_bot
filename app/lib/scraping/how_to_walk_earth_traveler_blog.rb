@@ -10,10 +10,10 @@ class Scraping::HowToWalkEarthTravelerBlog < Scraping::Base
     @blogs = []
     5.upto(14) do |num|
       @blogs << {
-        title:       driver.find_element(:xpath, "//*[@id='main_column']/div[#{num}]/dt/a/img").attribute("alt"),
-        content:     driver.find_element(:xpath, "//*[@id='main_column']/div[#{num}]/dd").text,
-        page_url:    driver.find_element(:xpath, "//*[@id='main_column']/div[#{num}]/dd/a").attribute("href"),
-        image:       driver.find_element(:xpath, "//*[@id='main_column']/div[#{num}]/dt/a/img").attribute("src"),
+        title:    driver.find_element(:xpath, "//*[@id='main_column']/div[#{num}]/dt/a/img").attribute("alt"),
+        content:  driver.find_element(:xpath, "//*[@id='main_column']/div[#{num}]/dd").text,
+        page_url: driver.find_element(:xpath, "//*[@id='main_column']/div[#{num}]/dd/a").attribute("href"),
+        image:    driver.find_element(:xpath, "//*[@id='main_column']/div[#{num}]/dt/a/img").attribute("src"),
       }
     end
   rescue => e
