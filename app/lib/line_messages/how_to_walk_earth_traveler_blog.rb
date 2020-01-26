@@ -71,7 +71,7 @@ module LineMessages::HowToWalkEarthTravelerBlog
               "size": "md",
               "action": {
                 "type": "uri",
-                "label": blog[:title],
+                "label": "content",
                 "uri": blog[:page_url],
               }
             },
