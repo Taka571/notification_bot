@@ -27,4 +27,8 @@ namespace :notify do
 
     Scraping::QiitaTrend.new.notify
   end
+
+  task traveler_blogs: :environment do
+    Scraping::HowToWalkEarthTravelerBlog.new.notify
+  end
 end
