@@ -25,7 +25,7 @@ module LineMessages::QiitaTrend
   def create_line_messages
     {
       "type": "flex",
-      "altText": ranking_from_1st_to_10th,
+      "altText": ranking_from_1st_to_10th.truncate(400),
       "contents": line_messages,
     }
   end

@@ -25,7 +25,7 @@ module LineMessages::HowToWalkEarthTravelerBlog
   def create_line_messages
     {
       "type": "flex",
-      "altText": blogs.map {|blog| blog[:title]}.join(" / "),
+      "altText": blogs.map {|blog| blog[:title]}.join(" / ").truncate(40),
       "contents":
       {
         "type": "carousel",
