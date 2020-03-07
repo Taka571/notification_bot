@@ -1,6 +1,7 @@
 class Scraping::RealTimeTrend < Scraping::Base
   include LineMessages::RealTimeTrend
   attr_reader :ranking
+  EXEC_HOURS = [2, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23].freeze
   REAL_TIME_TREND_URL = "https://search.yahoo.co.jp/realtime".freeze
 
   def initialize

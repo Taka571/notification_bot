@@ -12,6 +12,8 @@ namespace :notify do
   end
 
   task real_time_trend: :environment do
+    next unless Scraping::RealTimeTrend::EXEC_HOURS.include?(Time.zone.now.hour)
+
     Scraping::RealTimeTrend.new.notify
   end
 
