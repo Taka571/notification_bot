@@ -18,14 +18,14 @@ namespace :notify do
   end
 
   task hatena_hot_entry: :environment do
-    return unless Scraping::HatenaHotEntry::EXEC_HOURS.include?(Time.zone.now.hour)
+    next unless Scraping::HatenaHotEntry::EXEC_HOURS.include?(Time.zone.now.hour)
 
     Scraping::HatenaHotEntry.new(category: :all).notify
     Scraping::HatenaHotEntry.new(category: :it).notify
   end
 
   task qiita_trend: :environment do
-    return unless Scraping::QiitaTrend::EXEC_HOURS.include?(Time.zone.now.hour)
+    next unless Scraping::QiitaTrend::EXEC_HOURS.include?(Time.zone.now.hour)
 
     Scraping::QiitaTrend.new.notify
   end
