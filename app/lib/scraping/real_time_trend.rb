@@ -8,17 +8,11 @@ class Scraping::RealTimeTrend < Scraping::Base
     driver = Selenium::WebDriver.for(:chrome)
     driver.navigate.to(REAL_TIME_TREND_URL)
     @ranking = {}
-    1.upto(5) do |num|
-      # 1〜5位まで
+    1.upto(10) do |num|
+      # 1〜10位まで
       @ranking[num] = {
-        text: driver.find_element(:xpath, "//*[@id='Te']/div[2]/div[1]/div[#{num}]/p/a").text,
-        url:  driver.find_element(:xpath, "//*[@id='Te']/div[2]/div[1]/div[#{num}]/p/a").attribute("href"),
-      }
-
-      # 6〜10位まで
-      @ranking[num + 5] = {
-        text: driver.find_element(:xpath, "//*[@id='Te']/div[2]/div[2]/div[#{num}]/p/a").text,
-        url:  driver.find_element(:xpath, "//*[@id='Te']/div[2]/div[2]/div[#{num}]/p/a").attribute("href"),
+        text: driver.find_element(:xpath, "//*[@id='body']/div[2]/article/section/ol[1]/li[#{num}]/a").text,
+        url:  driver.find_element(:xpath, "//*[@id='body']/div[2]/article/section/ol[1]/li[#{num}]/a").attribute("href"),
       }
     end
   end
